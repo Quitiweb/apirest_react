@@ -3,11 +3,13 @@ from django.utils.timezone import utc
 from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import generics, permissions, authentication
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from .forms import CustomUserCreationForm
-from .models import Logs
-from .serializers import LogSerializer
+from .models import Logs, CustomUser
+from .serializers import LogSerializer, UserSerializer
 
 now = datetime.datetime.utcnow().replace(tzinfo=utc)
 
@@ -33,3 +35,10 @@ class LogDetail(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         serializer.save(timestamp=now)
+
+
+class UserList(generics.ListAPIView):
+    queryset = CustomUser.objects.filter(is_superuser=False).all()
+    serializer_class = UserSerializer
+    http_method_names = ['get']
+

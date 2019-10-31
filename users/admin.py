@@ -23,7 +23,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password', )}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'address',
                                          'personal_info', )}),
-        (_('Additional info'), {'fields': ('subscription_type', 'payed', 'configuration', )}),
+        (_('Additional info'), {'fields': ('subscription_type', 'payed', 'configuration', 'remoteLog', 'MACAddress')}),
         # (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'groups', )}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),

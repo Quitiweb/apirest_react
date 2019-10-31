@@ -115,3 +115,7 @@ media/
 
 # dbSQLite
 db.sqlite3
+
+# pipenv
+Pipfile
+Pipfile.lock

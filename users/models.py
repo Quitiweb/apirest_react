@@ -1,4 +1,4 @@
-import datetime
+from django.utils.timezone import now
 from django.utils.timezone import utc
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
@@ -7,7 +7,6 @@ from django.core.validators import RegexValidator
 MED_LENGTH = 500
 MAX_LENGTH = 1500
 
-now = datetime.datetime.utcnow().replace(tzinfo=utc)
 
 
 class SubscriptionType(models.Model):
@@ -38,6 +37,8 @@ class CustomUser(AbstractUser):
     subscription_type = models.ForeignKey('SubscriptionType', on_delete=models.SET_NULL, null=True, blank=True)
     payed = models.BooleanField(default=False, blank=True)
     configuration = models.ForeignKey('Configuration', on_delete=models.SET_NULL, null=True, blank=True)
+    remoteLog = models.BooleanField(default=False)
+    MACAddress = models.CharField(max_length=100, default='')
 
     objects = CustomUserManager()
 
