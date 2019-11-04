@@ -39,3 +39,4 @@ class UserList(generics.ListAPIView):
     queryset = CustomUser.objects.filter(is_superuser=False).all()
     serializer_class = UserSerializer
     http_method_names = ['get']
+    permission_classes = (permissions.IsAuthenticated,)
