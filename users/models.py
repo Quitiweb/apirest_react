@@ -1,12 +1,10 @@
 from django.utils.timezone import now
-from django.utils.timezone import utc
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.core.validators import RegexValidator
 
 MED_LENGTH = 500
 MAX_LENGTH = 1500
-
 
 
 class SubscriptionType(models.Model):
