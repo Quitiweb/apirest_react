@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import generics, permissions, authentication
 from rest_framework.decorators import api_view
+from rest_framework.fields import CurrentUserDefault
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -38,7 +39,12 @@ class LogDetail(generics.ListCreateAPIView):
 
 
 class UserList(generics.ListAPIView):
-    queryset = CustomUser.objects.filter(is_superuser=False).all()
+    queryset = CustomUser.objects.filter().all()
     serializer_class = UserSerializer
     http_method_names = ['get']
+    authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return CustomUser.objects.filter(id=user.id)
 
