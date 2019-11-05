@@ -36,7 +36,7 @@ class LogDetail(generics.ListCreateAPIView):
 
 
 class CurrentUser(generics.ListAPIView):
-    queryset = CustomUser.objects.filter().all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['get']
     authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
@@ -44,4 +44,3 @@ class CurrentUser(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return CustomUser.objects.filter(id=user.id)
-
