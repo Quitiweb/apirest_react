@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator
 
 MED_LENGTH = 500
 MAX_LENGTH = 1500
+MAX_TXT_LENGTH = 40000
 
 
 class SubscriptionType(models.Model):
@@ -48,8 +49,8 @@ class Logs(models.Model):
     user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='logs',
                              limit_choices_to={'is_superuser': False})
     timestamp = models.DateTimeField(default=now)
-    data = models.CharField(max_length=MAX_LENGTH, blank=True)
-    notes = models.TextField(max_length=MAX_LENGTH, blank=True)
+    data = models.TextField(max_length=MAX_TXT_LENGTH, blank=True)
+    notes = models.TextField(max_length=MAX_TXT_LENGTH, blank=True)
 
     class Meta:
         verbose_name_plural = 'Logs'
