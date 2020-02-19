@@ -24,7 +24,7 @@ class LogDetail(generics.ListCreateAPIView):
     authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         # data = [log.data for log in Logs.objects.filter(user=request.user)]
         queryset = Logs.objects.filter(user=request.user)
         serializer = LogSerializer(queryset, many=True)
