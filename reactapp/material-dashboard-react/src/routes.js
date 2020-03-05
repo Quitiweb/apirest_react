@@ -105,7 +105,7 @@ const dashboardRoutes = [
   // },
   {
     path: "/login",
-    name: localStorage.username ? "Logout" : "Login",
+    name: localStorage.username ? "Hi, " + localStorage.username +". Logout" : "Login",
     rtlName: "الرموز",
     icon: LockOpenIcon,
     component: Login,

@@ -93,7 +93,7 @@ export default function SignIn() {
     .then(function (response) {
       console.log(response);
       localStorage.setItem('username', username);
-      localStorage.setItem('token', 'Token: ' + response.data.key);
+      localStorage.setItem('token', 'Token ' + response.data.key);
       history.push('/dashboard');
       window.location.reload();
       

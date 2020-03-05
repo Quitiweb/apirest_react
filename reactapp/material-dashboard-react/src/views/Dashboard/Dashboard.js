@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -29,6 +29,8 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
+import axios from 'axios';
+
 import { bugs, website, server } from "variables/general.js";
 
 import {
@@ -42,11 +44,36 @@ import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js"
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
+
+  const [username, setUsername] = useState(localStorage.getItem('username') ? localStorage.getItem('username') : null);
+  const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null);
+
+  const [devices, setDevices] = useState([]);
+
+  var array = []
+  
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/', { headers: { "Authorization": token } })
+      .then(function (response) {
+
+        for(var i in response.data) {
+            array.push(response.data[i]);
+        }
+        setDevices(array);
+      })
+      .catch(function (error) {
+        console.log(error)
+      });
+  }, []);
+
+
   const classes = useStyles();
   return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
+    username ? // operador ternario para mostrar la info o no
+      <div>
+        <GridContainer>
+          <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
@@ -69,7 +96,7 @@ export default function Dashboard() {
               </CardFooter>
             </Card>
           </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="success" stats icon>
                 <CardIcon color="success">
@@ -86,7 +113,7 @@ export default function Dashboard() {
               </CardFooter>
             </Card>
           </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="danger" stats icon>
                 <CardIcon color="danger">
@@ -103,7 +130,7 @@ export default function Dashboard() {
               </CardFooter>
             </Card>
           </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="info" stats icon>
                 <CardIcon color="info">
@@ -120,35 +147,42 @@ export default function Dashboard() {
               </CardFooter>
             </Card>
           </GridItem>
-        
-        {/* tabla principal */}
-        <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
-          <CardHeader plain color="primary" style={{ background: '#00796b' }}>
-            <h4 className={classes.cardTitleWhite}>
-              Lista de máquinas
+
+          {/* tabla principal */}
+          <GridItem xs={12} sm={12} md={12}>
+            <Card plain>
+              <CardHeader plain color="primary" style={{ background: '#00796b' }}>
+                <h4 className={classes.cardTitleWhite}>
+                  Devices List
             </h4>
-            <p className={classes.cardCategoryWhite}>
-              
-            </p>
-          </CardHeader>
-          <CardBody>
-            <Table
-              tableHeaderColor="secondary"
-              tableHead={["ID", "Name", "Country", "City", "Salary"]}
-              tableData={[
-                ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-                ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-                ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-                ["4","Philip Chaney","$38,735","Korea, South","Overland Park"],
-                ["5","Doris Greene","$63,542","Malawi","Feldkirchen in Kärnten"],
-                ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-      </GridContainer>
-    </div>
+                <p className={classes.cardCategoryWhite}>
+
+                </p>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="secondary"
+                  tableHead={["title", "code"]}
+                  tableData={[
+                   ['Device1', 'Descripcion breve'],
+                   ['Device2', 'Este es el dispositivo 2'],
+                   ['Device3', 'Esto es una prueba para ver el dispositivo 3']
+                  ]}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+        </GridContainer>
+      </div>
+
+      :
+
+      <div>
+        <GridContainer>
+          <GridItem xs={12} style={{ textAlign: "center" }}>
+            <h2>Please, log in to check your devices' information</h2>
+          </GridItem>
+        </GridContainer>
+      </div>
   );
 }
