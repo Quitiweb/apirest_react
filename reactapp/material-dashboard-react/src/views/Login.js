@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,13 +12,15 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { Redirect, useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Defensya
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -47,7 +49,49 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignIn() {
+
+  let history = useHistory();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   const classes = useStyles();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      localStorage.clear();
+
+      axios.post('http://127.0.0.1:8000/rest-auth/logout/', {
+      }, )
+      .then(function (response) {
+        console.log(response);
+        window.location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    }
+    
+  }, []);
+
+  const submitForm = () => {
+    axios.post('http://127.0.0.1:8000/rest-auth/login/', {
+      username: username,
+      password: password
+    }, )
+    .then(function (response) {
+      console.log(response);
+      localStorage.setItem('username', username);
+      localStorage.setItem('token', 'Token: ' + response.data.key);
+      history.push('/dashboard');
+      window.location.reload();
+      
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,7 +101,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Inicia sesión
+          Sign in
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -65,10 +109,11 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            onChange={(e)=>setUsername(e.target.value)}
             autoFocus
           />
           <TextField
@@ -80,20 +125,18 @@ export default function SignIn() {
             label="Password"
             type="password"
             id="password"
+            onChange={(e)=>setPassword(e.target.value)}
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => submitForm()}
           >
-            Entrar
+            Sign in
           </Button>
         </form>
       </div>
