@@ -5,7 +5,7 @@ from .models import Snippet
 from .serializers import SnippetSerializer
 
 
-class SnippetDetail(generics.ListAPIView):
+class SnippetList(generics.ListAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
     authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
