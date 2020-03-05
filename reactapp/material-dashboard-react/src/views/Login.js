@@ -57,6 +57,11 @@ export default function SignIn() {
 
   const classes = useStyles();
 
+  /**
+   * Al entrar en la vista, comprobamos si estamos haciendo login o logout
+   * En caso de haber pulsado la opcion de logout, borraremos todo el localStorage
+   * y podremos volver a logear.
+   */
   useEffect(() => {
     if (localStorage.getItem('token')) {
       localStorage.clear();
@@ -70,11 +75,16 @@ export default function SignIn() {
       .catch(function (error) {
         console.log(error);
       });
-
     }
-    
   }, []);
 
+
+  /**
+   * Evento que salta al hacer submit del formulario.
+   * Envia una peticion al servidor con el login y 
+   * recoge el auth token para poder hacer operaciones
+   * dentro de nuestra aplicacion.
+   */
   const submitForm = () => {
     axios.post('http://127.0.0.1:8000/rest-auth/login/', {
       username: username,
@@ -91,6 +101,16 @@ export default function SignIn() {
     .catch(function (error) {
       console.log(error);
     });
+  }
+
+  /**
+   * Al pulsar la tecla enter, haremos submit del form
+   * @param {*} event 
+   */
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      submitForm();
+    }
   }
 
   return (
@@ -114,6 +134,7 @@ export default function SignIn() {
             name="username"
             autoComplete="username"
             onChange={(e)=>setUsername(e.target.value)}
+            onKeyPress={(e) => handleKeyPress(e)}
             autoFocus
           />
           <TextField
@@ -126,6 +147,7 @@ export default function SignIn() {
             type="password"
             id="password"
             onChange={(e)=>setPassword(e.target.value)}
+            onKeyPress={(e) => handleKeyPress(e)}
             autoComplete="current-password"
           />
           <Button
