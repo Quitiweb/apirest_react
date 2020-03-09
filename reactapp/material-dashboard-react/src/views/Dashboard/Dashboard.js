@@ -52,16 +52,18 @@ export default function Dashboard() {
   const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null);
 
   const [devices, setDevices] = useState([]);
+  const [tempMax, setTempMax] = useState([]);
+  const [tempMin, setTempMin] = useState([]);
+  const [tempAmb, setTempAmb] = useState([]);
+  const [tempOil, setTempOil] = useState([]);
 
   var array = []
   
-
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/', { headers: { "Authorization": token } })
       .then(function (response) {
 
         for(var i in response.data) {
-            // console.log(response.data[i]['title'])
             array.push([response.data[i]['title'], response.data[i]['code'].length > 50 ? response.data[i]['code'].substring(0, 50) + '...' : response.data[i]['code']]);
         }
         setDevices(array);
@@ -69,6 +71,27 @@ export default function Dashboard() {
       .catch(function (error) {
         console.log(error)
       });
+
+      axios.get('http://127.0.0.1:8000/log', { headers: { "Authorization": token } })
+          .then(function (response) {
+    
+            for(var i in response.data) {
+                let datos = response.data[i]['data'].split(",");
+                let arrayDatos = []
+                for(var j in datos) {
+                    arrayDatos.push(datos[j])
+                }
+                setTempMax(datos[1]);
+                setTempMin(datos[2]);
+                setTempAmb(datos[3]);
+                setTempOil(datos[4]);
+                
+            }
+            
+          })
+          .catch(function (error) {
+            console.log(error)
+          });
   }, []);
 
 
@@ -85,13 +108,13 @@ export default function Dashboard() {
                 </CardIcon>
                 <p className={classes.cardCategory}>Max temp</p>
                 <h3 className={classes.cardTitle}>
-                  50 <small>º</small>
+                  {tempMax} <small>º</small>
                 </h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
                   <Icon>info_outline</Icon>
-                  <a href="login">
+                  <a href="logs">
                     View more detailed info
                   </a>
                 </div>
@@ -105,14 +128,14 @@ export default function Dashboard() {
                   <AcUnitIcon/>
                 </CardIcon>
                 <p className={classes.cardCategory}>Min temp</p>
-                <h3 className={classes.cardTitle}>50 <small>º</small></h3>
+                <h3 className={classes.cardTitle}>{tempMin} <small>º</small></h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
                 
                   <Icon>info_outline</Icon>
                   
-                  <a href="login">
+                  <a href="logs">
                     View more detailed info
                   </a>
                 </div>
@@ -126,13 +149,13 @@ export default function Dashboard() {
                   <Icon>info_outline</Icon>
                 </CardIcon>
                 <p className={classes.cardCategory}>Amb temp</p>
-                <h3 className={classes.cardTitle}> 50 <small>º</small></h3>
+                <h3 className={classes.cardTitle}> {tempAmb} <small>º</small></h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
                 <Icon>info_outline</Icon>
                   
-                  <a href="login">
+                  <a href="logs">
                     View more detailed info
                   </a>
                 </div>
@@ -146,13 +169,13 @@ export default function Dashboard() {
                   <InvertColorsIcon />
                 </CardIcon>
                 <p className={classes.cardCategory}>Oil temp</p>
-                <h3 className={classes.cardTitle}> 50 <small>º</small></h3>
+                <h3 className={classes.cardTitle}> {tempOil} <small>º</small></h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
                 <Icon>info_outline</Icon>
                   
-                  <a href="login">
+                  <a href="logs">
                     View more detailed info
                   </a>
                 </div>

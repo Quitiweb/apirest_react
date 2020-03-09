@@ -46,6 +46,8 @@ export default function TablaLogs() {
 
 
     return (
+        username ? // operador ternario para mostrar la info o no
+
         <GridContainer>
             {/* tabla principal */}
             <GridItem xs={12} sm={12} md={12}>
@@ -68,5 +70,15 @@ export default function TablaLogs() {
                 </Card>
             </GridItem>
         </GridContainer>
+
+      :
+      
+      <div>
+        <GridContainer>
+          <GridItem xs={12} style={{ textAlign: "center" }}>
+            <h2>Please, log in to check your devices' information</h2>
+          </GridItem>
+        </GridContainer>
+      </div>
     )
 }
