@@ -28,10 +28,12 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import Login from "views/Login.js";
+import TablaLogs from "views/TablaLogs.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
+import SaveIcon from '@material-ui/icons/Save';
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
@@ -104,6 +106,14 @@ const dashboardRoutes = [
   //   layout: "/rtl"
   // },
   {
+    path: "/logs",
+    name: "Logs",
+    rtlName: "الرموز",
+    icon: SaveIcon,
+    component: TablaLogs,
+    layout: "/admin"
+  },
+  {
     path: "/login",
     name: localStorage.username ? "Hi, " + localStorage.username +". Logout" : "Login",
     rtlName: "الرموز",
@@ -111,6 +121,7 @@ const dashboardRoutes = [
     component: Login,
     layout: "/admin"
   },
+
 ];
 
 export default dashboardRoutes;

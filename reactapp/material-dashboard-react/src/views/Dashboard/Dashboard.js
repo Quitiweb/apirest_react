@@ -13,6 +13,9 @@ import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import AcUnitIcon from '@material-ui/icons/AcUnit';
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
@@ -58,7 +61,8 @@ export default function Dashboard() {
       .then(function (response) {
 
         for(var i in response.data) {
-            array.push(response.data[i]);
+            // console.log(response.data[i]['title'])
+            array.push([response.data[i]['title'], response.data[i]['code'].length > 50 ? response.data[i]['code'].substring(0, 50) + '...' : response.data[i]['code']]);
         }
         setDevices(array);
       })
@@ -77,20 +81,18 @@ export default function Dashboard() {
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
+                  <WhatshotIcon/>
                 </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
+                <p className={classes.cardCategory}>Max temp</p>
                 <h3 className={classes.cardTitle}>
-                  50 <small>GB</small>
+                  50 <small>º</small>
                 </h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <Danger>
-                    <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
+                  <Icon>info_outline</Icon>
+                  <a href="login">
+                    View more detailed info
                   </a>
                 </div>
               </CardFooter>
@@ -100,15 +102,19 @@ export default function Dashboard() {
             <Card>
               <CardHeader color="success" stats icon>
                 <CardIcon color="success">
-                  <Store />
+                  <AcUnitIcon/>
                 </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34</h3>
+                <p className={classes.cardCategory}>Min temp</p>
+                <h3 className={classes.cardTitle}>50 <small>º</small></h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <DateRange />
-                  Last 24 Hours
+                
+                  <Icon>info_outline</Icon>
+                  
+                  <a href="login">
+                    View more detailed info
+                  </a>
                 </div>
               </CardFooter>
             </Card>
@@ -119,13 +125,16 @@ export default function Dashboard() {
                 <CardIcon color="danger">
                   <Icon>info_outline</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
+                <p className={classes.cardCategory}>Amb temp</p>
+                <h3 className={classes.cardTitle}> 50 <small>º</small></h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
+                <Icon>info_outline</Icon>
+                  
+                  <a href="login">
+                    View more detailed info
+                  </a>
                 </div>
               </CardFooter>
             </Card>
@@ -134,15 +143,18 @@ export default function Dashboard() {
             <Card>
               <CardHeader color="info" stats icon>
                 <CardIcon color="info">
-                  <Accessibility />
+                  <InvertColorsIcon />
                 </CardIcon>
-                <p className={classes.cardCategory}>Followers</p>
-                <h3 className={classes.cardTitle}>+245</h3>
+                <p className={classes.cardCategory}>Oil temp</p>
+                <h3 className={classes.cardTitle}> 50 <small>º</small></h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <Update />
-                  Just Updated
+                <Icon>info_outline</Icon>
+                  
+                  <a href="login">
+                    View more detailed info
+                  </a>
                 </div>
               </CardFooter>
             </Card>
@@ -161,13 +173,9 @@ export default function Dashboard() {
               </CardHeader>
               <CardBody>
                 <Table
-                  tableHeaderColor="secondary"
-                  tableHead={["title", "code"]}
-                  tableData={[
-                   ['Device1', 'Descripcion breve'],
-                   ['Device2', 'Este es el dispositivo 2'],
-                   ['Device3', 'Esto es una prueba para ver el dispositivo 3']
-                  ]}
+                  tableHeaderColor="primary"
+                  tableHead={["Title", "Description"]}
+                  tableData={devices}
                 />
               </CardBody>
             </Card>
