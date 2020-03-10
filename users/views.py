@@ -6,7 +6,7 @@ from rest_framework import generics, permissions, authentication
 from rest_framework.response import Response
 
 from .forms import CustomUserCreationForm
-from .models import Logs, CustomUser
+from .models import Logs, CustomUser, Device
 from .serializers import LogSerializer, UserSerializer
 
 now = datetime.datetime.utcnow().replace(tzinfo=utc)
@@ -25,8 +25,9 @@ class LogDetail(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
+        print(request.META.get('HTTP_USER'))
         # data = [log.data for log in Logs.objects.filter(user=request.user)]
-        queryset = Logs.objects.filter(user=request.user)
+        queryset = Logs.objects.filter(device=Device.objects.all().first())
         serializer = LogSerializer(queryset, many=True)
         return Response(serializer.data)
 
