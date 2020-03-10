@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('snippets', '0002_snippet_owner'),
+        ('profiles', '0002_snippet_owner'),
     ]
 
     operations = [

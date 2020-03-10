@@ -4,7 +4,7 @@ from rest_framework.authtoken.admin import TokenAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, SubscriptionType, Logs
+from .models import CustomUser, SubscriptionType, Logs, Device
 from rest_framework.authtoken.models import Token
 
 
@@ -16,14 +16,14 @@ class CustomUserAdmin(UserAdmin):
     """
     fieldsets = UserAdmin.fieldsets + (
         (None, {'fields': ('phone_number', 'address', 'personal_info', 'subscription_type',
-                           'payed', 'configuration', )}),
+                           'payed', )}),
     )
     """
     fieldsets = (
         (None, {'fields': ('username', 'password', )}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'address',
                                          'personal_info', )}),
-        (_('Additional info'), {'fields': ('subscription_type', 'payed', 'configuration', 'remoteLog', 'MACAddress')}),
+        (_('Additional info'), {'fields': ('subscription_type', 'payed')}),
         # (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'groups', )}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
@@ -48,6 +48,7 @@ class CustomTokenAdmin(TokenAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(SubscriptionType)
 admin.site.register(Logs)
+admin.site.register(Device)
 
 admin.site.unregister(Token)
 admin.site.register(Token, CustomTokenAdmin)

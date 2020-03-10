@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from .models import Snippet
+from .models import Profile
 
 
 class SnippetSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Snippet
+        model = Profile
         fields = ('title', 'code', )
