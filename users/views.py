@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound
 from .forms import CustomUserCreationForm
 from .models import Logs, CustomUser, Device
-from .serializers import LogSerializer, UserSerializer
+from .serializers import LogSerializer, UserSerializer, DeviceSerializer
 
 now = datetime.datetime.utcnow().replace(tzinfo=utc)
 
@@ -20,23 +20,57 @@ class SignUp(generic.CreateView):
     template_name = 'landing/signup.html'
 
 
-class LogDetail(generics.ListCreateAPIView):
-    queryset = Logs.objects.all()
-    serializer_class = LogSerializer
-    authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+class DeviceList(generics.ListCreateAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+    # authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
+    # permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
         head_token = request.META.get('HTTP_USER')
         print(head_token)
         token = Token.objects.filter(key=head_token).first()
         print('token: ' + str(token))
-        if token:
+        if token is not None:
             print('user: ' + str(token.user))
-            queryset = Logs.objects.filter(device=Device.objects.filter(user=token.user).first())
+            queryset = Device.objects.filter(user=token.user).all()
+            serializer = DeviceSerializer(queryset, many=True)
+            return Response(serializer.data)
+        elif request.user.is_authenticated:
+            queryset = Device.objects.filter(user=request.user).all()
+            serializer = DeviceSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({
+                'status': 'Bad request',
+                'message': 'Please provide an user token to retrieve the data',
+                'errors': 'NO_AUTH_USER'  # for example
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        serializer.save(timestamp=now)
+
+
+class LogList(generics.ListCreateAPIView):
+    queryset = Logs.objects.all()
+    serializer_class = LogSerializer
+
+    def get(self, request, *args, **kwargs):
+        head_token = request.META.get('HTTP_USER')
+        print(head_token)
+        token = Token.objects.filter(key=head_token).first()
+        print('token: ' + str(token))
+        if token is not None:
+            queryset = Logs.objects.filter(device__user=token.user).all()
+            serializer = LogSerializer(queryset, many=True)
+            return Response(serializer.data)
+        elif request.user.is_authenticated:
+            queryset = Logs.objects.filter(device__user=request.user).all()
             serializer = LogSerializer(queryset, many=True)
             return Response(serializer.data)
         else:
+            print('iii')
             return Response({
                 'status': 'Bad request',
                 'message': 'Please provide an user token to retrieve the data',

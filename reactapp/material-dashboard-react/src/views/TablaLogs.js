@@ -35,7 +35,7 @@ export default function TablaLogs() {
                     arrayDatos.push(datos[j])
                 }
                 console.log(arrayDatos)
-                array.push([response.data[i]['timestamp'], datos[1], datos[2], datos[3], datos[4],datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]]);
+                array.push([response.data[i]['timestamp'], response.data[i]['device'], datos[1], datos[2], datos[3], datos[4],datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]]);
             }
             setLogs(array);
           })
@@ -63,7 +63,7 @@ export default function TablaLogs() {
                 <CardBody>
                     <Table
                     tableHeaderColor="primary"
-                    tableHead={["Date", "Temp upper", "Temp lower", "Temp Amb", "Temp Oil", "PressureDie", "PressurePump", "Scale1", "Scale2", "Scale3", "Mode", "Freq"]}
+                    tableHead={["Date", "Device", "Temp upper", "Temp lower", "Temp Amb", "Temp Oil", "PressureDie", "PressurePump", "Scale1", "Scale2", "Scale3", "Mode", "Freq"]}
                     tableData={logs}
                     />
                 </CardBody>

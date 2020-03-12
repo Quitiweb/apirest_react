@@ -4,7 +4,8 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 urlpatterns = [
-    path('log/', views.LogDetail.as_view(), name='log-detail'),
+    path('', views.DeviceList.as_view(), name='device-list'),
+    path('log/', views.LogList.as_view(), name='log-list'),
     path('user/', views.CurrentUser.as_view(), name='user-list'),
 ]
 

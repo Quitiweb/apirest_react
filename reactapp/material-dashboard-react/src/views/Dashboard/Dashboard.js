@@ -64,7 +64,13 @@ export default function Dashboard() {
       .then(function (response) {
 
         for(var i in response.data) {
-            array.push([response.data[i]['title'], response.data[i]['code'].length > 50 ? response.data[i]['code'].substring(0, 50) + '...' : response.data[i]['code']]);
+            array.push(
+              [response.data[i]['id'], 
+              response.data[i]['name'],
+              response.data[i]['configuration'] ? response.data[i]['configuration'] : '---',
+              response.data[i]['remoteLog'] ? 'true' : 'false',
+              response.data[i]['MACAddress']
+            ]);
         }
         setDevices(array);
       })
@@ -197,7 +203,7 @@ export default function Dashboard() {
               <CardBody>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Title", "Description"]}
+                  tableHead={["ID", "Name", "Configuration", "remoteLog", "MACAddress"]}
                   tableData={devices}
                 />
               </CardBody>
