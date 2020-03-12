@@ -4,7 +4,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import generics, permissions, authentication
 from rest_framework.response import Response
-
+from rest_framework.authtoken.models import Token
+from rest_framework import status
+from rest_framework.exceptions import NotFound
 from .forms import CustomUserCreationForm
 from .models import Logs, CustomUser, Device
 from .serializers import LogSerializer, UserSerializer
@@ -25,11 +27,21 @@ class LogDetail(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        print(request.META.get('HTTP_USER'))
-        # data = [log.data for log in Logs.objects.filter(user=request.user)]
-        queryset = Logs.objects.filter(device=Device.objects.all().first())
-        serializer = LogSerializer(queryset, many=True)
-        return Response(serializer.data)
+        head_token = request.META.get('HTTP_USER')
+        print(head_token)
+        token = Token.objects.filter(key=head_token).first()
+        print('token: ' + str(token))
+        if token:
+            print('user: ' + str(token.user))
+            queryset = Logs.objects.filter(device=Device.objects.filter(user=token.user).first())
+            serializer = LogSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({
+                'status': 'Bad request',
+                'message': 'Please provide an user token to retrieve the data',
+                'errors': 'NO_AUTH_USER'  # for example
+            }, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
