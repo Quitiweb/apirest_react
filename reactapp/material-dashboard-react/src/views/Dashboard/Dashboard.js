@@ -4,6 +4,9 @@ import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
@@ -56,13 +59,14 @@ export default function Dashboard() {
   const [tempMin, setTempMin] = useState([]);
   const [tempAmb, setTempAmb] = useState([]);
   const [tempOil, setTempOil] = useState([]);
+  const [filterValue, setFilterValue] = useState(1);
 
   var array = []
   
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/', { headers: { "Authorization": token } })
-      .then(function (response) {
-
+    axios.get('http://127.0.0.1:8000/', { headers: { "Authorization": token} }) // "user": token
+      .then(function (response) {                                             // en user se puede introducir un token
+          console.log(response.data)                                          // de la BBDD para acceder a la info de otro user.
         for(var i in response.data) {
             array.push(
               [response.data[i]['id'], 
@@ -78,7 +82,7 @@ export default function Dashboard() {
         console.log(error)
       });
 
-      axios.get('http://127.0.0.1:8000/log', { headers: { "Authorization": token } })
+      axios.get('http://127.0.0.1:8000/log', { headers: { "Authorization": token, 'device': filterValue } })
           .then(function (response) {
     
             for(var i in response.data) {
@@ -100,12 +104,47 @@ export default function Dashboard() {
           });
   }, []);
 
+  const handleChange = (event) => {
+    setFilterValue(event.target.value);
+
+    axios.get('http://127.0.0.1:8000/log', { headers: { "Authorization": token, 'device': event.target.value } })
+    .then(function (response) {
+
+      for(var i in response.data) {
+          let datos = response.data[i]['data'].split(",");
+          let arrayDatos = []
+          for(var j in datos) {
+              arrayDatos.push(datos[j])
+          }
+          setTempMax(datos[1]);
+          setTempMin(datos[2]);
+          setTempAmb(datos[3]);
+          setTempOil(datos[4]);
+          
+      }
+      
+    })
+    .catch(function (error) {
+      console.log(error)
+    });
+  };
+
 
   const classes = useStyles();
   return (
     username ? // operador ternario para mostrar la info o no
       <div>
         <GridContainer>
+        <GridItem xs={12} style={{ marginBottom: 15 }}>
+          <span style={{ marginRight: 15, position: 'relative', top: 5 }}>Last logs of </span>
+        <FormControl variant="outlined">
+        <Select labelId="label" id="select" value={filterValue} onChange={handleChange}>
+          {devices.map((item, index) => (
+            <MenuItem value={item[0]}>{item[1]}</MenuItem>
+          ))}
+        </Select>
+        </FormControl>
+        </GridItem>
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="warning" stats icon>

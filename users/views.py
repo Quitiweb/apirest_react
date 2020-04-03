@@ -6,6 +6,7 @@ from rest_framework import generics, permissions, authentication
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework import status
+from rest_framework import mixins, viewsets
 from rest_framework.exceptions import NotFound
 from .forms import CustomUserCreationForm
 from .models import Logs, CustomUser, Device
@@ -58,15 +59,22 @@ class LogList(generics.ListCreateAPIView):
 
     def get(self, request, *args, **kwargs):
         head_token = request.META.get('HTTP_USER')
+        device = request.META.get('HTTP_DEVICE')
         print(head_token)
         token = Token.objects.filter(key=head_token).first()
         print('token: ' + str(token))
         if token is not None:
-            queryset = Logs.objects.filter(device__user=token.user).all()
+            if device and device != '0':
+                queryset = Logs.objects.filter(device__id=device, device__user=token.user).all()
+            else:
+                queryset = Logs.objects.filter(device__user=token.user).all()
             serializer = LogSerializer(queryset, many=True)
             return Response(serializer.data)
         elif request.user.is_authenticated:
-            queryset = Logs.objects.filter(device__user=request.user).all()
+            if device and device != '0':
+                queryset = Logs.objects.filter(device__id=device, device__user=request.user).all()
+            else:
+                queryset = Logs.objects.filter(device__user=request.user).all()
             serializer = LogSerializer(queryset, many=True)
             return Response(serializer.data)
         else:

@@ -28,7 +28,7 @@ SECRET_KEY = '9r60wgews&#phdfw%8&hf71j=wxzg*1qot&8gyb5yzdeb*^g$d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".qw-rest.club"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -50,6 +50,23 @@ INSTALLED_APPS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+
+    # CUSTOM HEADERS
+    'user',
+    'device'
+]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

@@ -26,7 +26,7 @@ const switchRoutes = (
       if (prop.layout === "/rtl") {
         return (
           <Route
-            path={prop.layout + prop.path}
+            path={prop.layout + prop.path == '/logs'  ? '/logs/:device' : prop.path}
             component={prop.component}
             key={key}
           />
