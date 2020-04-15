@@ -43,20 +43,19 @@ class CustomUser(AbstractUser):
 
 
 class Device(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='')
     configuration = models.ForeignKey('Configuration', on_delete=models.SET_NULL, null=True, blank=True)
     remoteLog = models.BooleanField(default=False)
     MACAddress = models.CharField(max_length=100, default='')
     user = models.ManyToManyField('users.CustomUser', related_name='devices',
-                                   limit_choices_to={'is_superuser': False})
+                                  limit_choices_to={'is_superuser': False})
 
     def __str__(self):
         return self.name
 
 
 class Logs(models.Model):
-    device = models.ForeignKey('Device', on_delete=models.CASCADE, related_name='logs')
+    device = models.ForeignKey('Device', on_delete=models.CASCADE, related_name='logs', null=True, blank=True)
     timestamp = models.DateTimeField(default=now)
     data = models.TextField(max_length=MAX_TXT_LENGTH, blank=True)
     notes = models.TextField(max_length=MAX_TXT_LENGTH, blank=True)
