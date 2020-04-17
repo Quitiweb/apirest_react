@@ -42,6 +42,10 @@ class DeviceViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
         serializer.save(timestamp=now)
 
+    def get_queryset(self):
+        user = self.request.user
+        return Device.objects.filter(user=user).all()
+
 
 class LogViewSet(viewsets.ModelViewSet):
     queryset = Logs.objects.all()
@@ -56,8 +60,10 @@ class LogViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         try:
             device_id = self.request.META['HTTP_DEVICE']
-            print(self.request.META['HTTP_DEVICE'])
-            queryset = Logs.objects.filter(device__id=device_id).all()
+            if device_id == '0': # El front envia 0 al darle a 'All'
+                queryset = Logs.objects.filter(device__user=self.request.user).all()
+            else:
+                queryset = Logs.objects.filter(device__id=device_id, device__user=self.request.user).all()
         except KeyError:
             queryset = Logs.objects.all()
         return queryset
