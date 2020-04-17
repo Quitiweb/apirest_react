@@ -28,11 +28,14 @@ SECRET_KEY = '9r60wgews&#phdfw%8&hf71j=wxzg*1qot&8gyb5yzdeb*^g$d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '.quitiweb.com',
+]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'bootstrap_admin',
     'django.contrib.admin',
@@ -43,10 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
     'rest_auth',
     'users',
     'profiles',
-    'corsheaders'
+    'corsheaders',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -84,7 +88,6 @@ MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #...
 )
 
 CORS_ORIGIN_WHITELIST = (
@@ -97,7 +100,10 @@ ROOT_URLCONF = 'restapi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'restapi/templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'restapi/templates'),
+            os.path.join(BASE_DIR, 'reactapp/material-dashboard-react')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -147,13 +153,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Europe/Madrid'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -164,6 +166,7 @@ STATIC_ROOT = os.path.join(PUBLIC_ROOT, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'reactapp', 'material-dashboard-react', 'public'),
 )
 
 STATICFILES_FINDERS = (
@@ -174,7 +177,14 @@ STATICFILES_FINDERS = (
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     ],
 }
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# SWAGGER_SETTINGS = {
+#     'LOGIN_URL': 'rest_framework:login',
+#     'LOGOUT_URL': 'rest_framework:logout',
+# }

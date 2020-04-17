@@ -14,6 +14,8 @@ class Profile(models.Model):
     # owner = models.ForeignKey('users.CustomUser', related_name='profiles', on_delete=models.CASCADE)
     device = models.ManyToManyField('users.Device', related_name='profiles')
 
+    objects = models.Model
+
     class Meta:
         ordering = ('created',)
 

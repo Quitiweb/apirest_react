@@ -1,5 +1,4 @@
 from rest_framework import permissions, authentication, generics
-from rest_framework.response import Response
 
 from users.models import Device
 from .models import Profile

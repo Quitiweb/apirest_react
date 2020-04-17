@@ -15,17 +15,12 @@ class LogSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'first_name', 'last_name',
-                  'phone_number', 'address', 'personal_info',
-                  'personal_info', 'subscription_type', 'payed', 'configuration',
-                  'remoteLog', 'MACAddress')
+        exclude = ('password', 'is_superuser', 'groups', 'user_permissions')
 
 
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
-        fields = ('id', 'name', 'configuration',
-                  'remoteLog', 'MACAddress')
+        fields = '__all__'

@@ -33,7 +33,7 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)  # validators should be a list
     address = models.CharField(max_length=MED_LENGTH, blank=True)
     personal_info = models.TextField(max_length=MAX_LENGTH, blank=True)
-    subscription_type = models.ForeignKey('SubscriptionType', on_delete=models.SET_NULL, null=True, blank=True)
+    subscription_type = models.ForeignKey('SubscriptionType', on_delete=models.CASCADE, null=True, blank=True)
     payed = models.BooleanField(default=False, blank=True)
 
     objects = CustomUserManager()
@@ -44,11 +44,13 @@ class CustomUser(AbstractUser):
 
 class Device(models.Model):
     name = models.CharField(max_length=100, default='')
-    configuration = models.ForeignKey('Configuration', on_delete=models.SET_NULL, null=True, blank=True)
+    # configuration = models.ForeignKey('Configuration', on_delete=models.SET_NULL, null=True, blank=True)
     remoteLog = models.BooleanField(default=False)
     MACAddress = models.CharField(max_length=100, default='')
     user = models.ManyToManyField('users.CustomUser', related_name='devices',
                                   limit_choices_to={'is_superuser': False})
+
+    objects = models.Model
 
     def __str__(self):
         return self.name
@@ -59,6 +61,8 @@ class Logs(models.Model):
     timestamp = models.DateTimeField(default=now)
     data = models.TextField(max_length=MAX_TXT_LENGTH, blank=True)
     notes = models.TextField(max_length=MAX_TXT_LENGTH, blank=True)
+
+    objects = models.Model
 
     class Meta:
         verbose_name_plural = 'Logs'
