@@ -32,12 +32,13 @@ export default function TablaLogs() {
     let { device } = useParams();
     console.log({device})
 
+    const url = window.$BASE_URL;
+
     var array = []
     var arrayDevices = []
 
     useEffect(() => {
-
-      axios.get('http://127.0.0.1:8000/user/device/', { headers: { "Authorization": token} }) // "user": token
+      axios.get(url + '/user/device/', { headers: { "Authorization": token} }) // "user": token
       .then(function (response) {                                             // en user se puede introducir un token
           console.log(response.data)                                          // de la BBDD para acceder a la info de otro user.
         for(var i in response.data) {
@@ -53,7 +54,7 @@ export default function TablaLogs() {
       });
 
 
-      axios.get('http://127.0.0.1:8000/user/log/', { headers: { "Authorization": token } })
+      axios.get(url + '/user/log/', { headers: { "Authorization": token } })
         .then(function (response) {
   
           for(var i in response.data) {
@@ -74,7 +75,7 @@ export default function TablaLogs() {
 
   const handleChange = (event) => {
     setFilterValue(event.target.value);
-    axios.get('http://127.0.0.1:8000/user/log/', { headers: { "Authorization": token, 'device': event.target.value } })
+    axios.get( url + '/user/log/', { headers: { "Authorization": token, 'device': event.target.value } })
     .then(function (response) {
 
       for(var i in response.data) {

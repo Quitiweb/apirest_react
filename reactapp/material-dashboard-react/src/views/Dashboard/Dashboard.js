@@ -60,11 +60,12 @@ export default function Dashboard() {
   const [tempAmb, setTempAmb] = useState([]);
   const [tempOil, setTempOil] = useState([]);
   const [filterValue, setFilterValue] = useState(1);
+  const url = window.$BASE_URL;
 
   var array = []
   
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/user/device/', { headers: { "Authorization": token} }) // "user": token
+    axios.get( url + '/user/device/', { headers: { "Authorization": token} }) // "user": token
       .then(function (response) {                                             // en user se puede introducir un token
           console.log(response.data)                                          // de la BBDD para acceder a la info de otro user.
         for(var i in response.data) {
@@ -82,7 +83,7 @@ export default function Dashboard() {
         console.log(error)
       });
 
-      axios.get('http://127.0.0.1:8000/user/log/' + filterValue + '/', { headers: { "Authorization": token, 'device': filterValue } })
+      axios.get( url + '/user/log/' + filterValue + '/', { headers: { "Authorization": token, 'device': filterValue } })
           .then(function (response) {
     
             for(var i in response.data) {
@@ -108,7 +109,7 @@ export default function Dashboard() {
     var valor = event.target.value
     setFilterValue(event.target.value);
 
-    axios.get('http://127.0.0.1:8000/user/log/' + valor + '/', { headers: { "Authorization": token, 'device': event.target.value } })
+    axios.get( url + '/user/log/' + valor + '/', { headers: { "Authorization": token, 'device': event.target.value } })
     .then(function (response) {
       console.log(response.data)
 
@@ -138,7 +139,7 @@ export default function Dashboard() {
       <div>
         <GridContainer>
         <GridItem xs={12} style={{ marginBottom: 15 }}>
-          <span style={{ marginRight: 15, position: 'relative', top: 5 }}>Last logs of </span>
+          <span style={{ marginRight: 15, position: 'relative', top: 5 }}>Latest logs of </span>
         <FormControl variant="outlined">
         <Select labelId="label" id="select" value={filterValue} onChange={handleChange}>
           {devices.map((item, index) => (

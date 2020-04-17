@@ -57,6 +57,8 @@ export default function SignIn() {
 
   const classes = useStyles();
 
+  const url = window.$BASE_URL;
+
   /**
    * Al entrar en la vista, comprobamos si estamos haciendo login o logout
    * En caso de haber pulsado la opcion de logout, borraremos todo el localStorage
@@ -66,7 +68,7 @@ export default function SignIn() {
     if (localStorage.getItem('token')) {
       localStorage.clear();
 
-      axios.post('http://127.0.0.1:8000/rest-auth/logout/', {
+      axios.post(url + '/rest-auth/logout/', {
       }, )
       .then(function (response) {
         console.log(response);
@@ -86,7 +88,7 @@ export default function SignIn() {
    * dentro de nuestra aplicacion.
    */
   const submitForm = () => {
-    axios.post('http://127.0.0.1:8000/rest-auth/login/', {
+    axios.post(url + '/rest-auth/login/', {
       username: username,
       password: password
     }, )
