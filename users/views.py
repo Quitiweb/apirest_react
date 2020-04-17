@@ -52,3 +52,12 @@ class LogViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         serializer.save(timestamp=now)
+
+    def get_queryset(self):
+        try:
+            device_id = self.request.META['HTTP_DEVICE']
+            print(self.request.META['HTTP_DEVICE'])
+            queryset = Logs.objects.filter(device__id=device_id).all()
+        except KeyError:
+            queryset = Logs.objects.all()
+        return queryset

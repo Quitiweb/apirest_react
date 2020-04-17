@@ -64,7 +64,7 @@ export default function Dashboard() {
   var array = []
   
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/', { headers: { "Authorization": token} }) // "user": token
+    axios.get('http://127.0.0.1:8000/user/device/', { headers: { "Authorization": token} }) // "user": token
       .then(function (response) {                                             // en user se puede introducir un token
           console.log(response.data)                                          // de la BBDD para acceder a la info de otro user.
         for(var i in response.data) {
@@ -82,11 +82,11 @@ export default function Dashboard() {
         console.log(error)
       });
 
-      axios.get('http://127.0.0.1:8000/log', { headers: { "Authorization": token, 'device': filterValue } })
+      axios.get('http://127.0.0.1:8000/user/log/' + filterValue + '/', { headers: { "Authorization": token, 'device': filterValue } })
           .then(function (response) {
     
             for(var i in response.data) {
-                let datos = response.data[i]['data'].split(",");
+                let datos = response.data['data'].split(",");
                 let arrayDatos = []
                 for(var j in datos) {
                     arrayDatos.push(datos[j])
@@ -105,13 +105,15 @@ export default function Dashboard() {
   }, []);
 
   const handleChange = (event) => {
+    var valor = event.target.value
     setFilterValue(event.target.value);
 
-    axios.get('http://127.0.0.1:8000/log', { headers: { "Authorization": token, 'device': event.target.value } })
+    axios.get('http://127.0.0.1:8000/user/log/' + valor + '/', { headers: { "Authorization": token, 'device': event.target.value } })
     .then(function (response) {
+      console.log(response.data)
 
       for(var i in response.data) {
-          let datos = response.data[i]['data'].split(",");
+          let datos = response.data['data'].split(",");
           let arrayDatos = []
           for(var j in datos) {
               arrayDatos.push(datos[j])
@@ -241,6 +243,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardBody>
                 <Table
+                  context="dashboard"
                   tableHeaderColor="primary"
                   tableHead={["ID", "Name", "Configuration", "remoteLog", "MACAddress"]}
                   tableData={devices}

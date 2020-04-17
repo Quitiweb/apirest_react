@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {
+  Link
+} from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -14,7 +17,7 @@ const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
   const classes = useStyles();
-  const { tableHead, tableData, tableHeaderColor } = props;
+  const { tableHead, tableData, tableHeaderColor, context } = props;
   return (
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>
@@ -38,13 +41,21 @@ export default function CustomTable(props) {
           {tableData.map((prop, key) => {
             return (
               <TableRow key={tableData[key][0]} className={classes.tableBodyRow} style={{ cursor: 'pointer' }}>
-                {prop.map((prop, key) => {
+                {prop.map((prop, index) => {
+                  if(context== "dashboard") {
                   return (
-                    <TableCell className={classes.tableCell} key={key}>
-                      {prop}
+                    <TableCell className={classes.tableCell} key={index}>
+                        <Link to={"logs/" + tableData[key][0]} style={{color: 'black'}}>{prop}</Link>
                     </TableCell>
-                  );
-                })}
+                  );}
+                    else {
+                    return (
+                      <TableCell className={classes.tableCell} key={index}>
+                        {prop}
+                        </TableCell>
+                    )
+                  }}
+                )}
               </TableRow>
             );
           })}
