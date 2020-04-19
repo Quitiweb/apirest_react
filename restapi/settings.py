@@ -102,7 +102,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'restapi/templates'),
-            os.path.join(BASE_DIR, 'reactapp/material-dashboard-react')
+            os.path.join(BASE_DIR, 'reactapp')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -166,7 +166,7 @@ STATIC_ROOT = os.path.join(PUBLIC_ROOT, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'reactapp', 'material-dashboard-react', 'public'),
+    os.path.join(BASE_DIR, 'reactapp', 'public'),
 )
 
 STATICFILES_FINDERS = (
