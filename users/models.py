@@ -68,7 +68,10 @@ class Logs(models.Model):
         verbose_name_plural = 'Logs'
 
     def __str__(self):
-        return self.timestamp.strftime("%Y-%m-%d %H:%M:%S") + hyphen(self.device.name)
+        if self.device:
+            return self.timestamp.strftime("%Y-%m-%d %H:%M:%S") + hyphen(self.device.name)
+        else:
+            return self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def hyphen(field):
