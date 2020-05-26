@@ -33,9 +33,9 @@ window.$BASE_URL = 'http://127.0.0.1:8000';
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route path="/dashboard" component={Admin} />
+      <Route path="" component={Admin} />
       <Route path="/rtl" component={RTL} />
-      <Redirect from="/" to="/dashboard/index" />
+      <Redirect from="/" to="" />
     </Switch>
   </Router>,
   document.getElementById("root")

@@ -96,7 +96,7 @@ export default function SignIn() {
       console.log(response);
       localStorage.setItem('username', username);
       localStorage.setItem('token', 'Token ' + response.data.key);
-      history.push('/dashboard');
+      history.push('/');
       window.location.reload();
       
     })
