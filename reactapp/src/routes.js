@@ -42,12 +42,12 @@ import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/index",
     name: "Devices",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/admin"
+    layout: "/dashboard"
   },
   {
     path: "/logs",
@@ -55,7 +55,7 @@ const dashboardRoutes = [
     rtlName: "الرموز",
     icon: SaveIcon,
     component: TablaLogs,
-    layout: "/admin"
+    layout: "/dashboard"
   },
   {
     path: "/login",
@@ -63,7 +63,7 @@ const dashboardRoutes = [
     rtlName: "الرموز",
     icon: LockOpenIcon,
     component: Login,
-    layout: "/admin"
+    layout: "/dashboard"
   }
 
 ];
