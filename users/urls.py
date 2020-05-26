@@ -6,9 +6,9 @@ from . import views
 
 router = DefaultRouter()
 
-router.register('device', views.DeviceViewSet, base_name='device_list')
-router.register('log', views.LogViewSet, base_name='log_list')
-router.register('user-info', views.CurrentUserViewSet, base_name='user_list')
+router.register('device', views.DeviceViewSet, basename='device_list')
+router.register('log', views.LogViewSet, basename='log_list')
+router.register('user-info', views.CurrentUserViewSet, basename='user_list')
 
 urlpatterns = [
     path('user/', include(router.urls)),
