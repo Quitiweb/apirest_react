@@ -23,5 +23,5 @@ urlpatterns = [
     path('api-docs/', schema_view),
     path('', include('profiles.urls')),
     path('', include('users.urls')),
-    path('dashboard', react_frontend),
+    path('', react_frontend),
 ]

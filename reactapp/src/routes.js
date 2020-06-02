@@ -42,7 +42,7 @@ import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/devices",
     name: "Devices",
     rtlName: "لوحة القيادة",
     icon: Dashboard,

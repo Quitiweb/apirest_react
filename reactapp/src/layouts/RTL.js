@@ -67,7 +67,7 @@ export default function RTL({ ...rest }) {
     setMobileOpen(!mobileOpen);
   };
   const getRoute = () => {
-    return window.location.pathname !== "/dashboard/maps";
+    return window.location.pathname !== "/devices/maps";
   };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
