@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-# from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_swagger.views import get_swagger_view
 
@@ -11,8 +11,8 @@ API_DESCRIPTION = 'A web API to configure and log profile devices'
 schema_view = get_swagger_view(title=API_TITLE)
 
 
-# def react_frontend(request):
-#     return render(request, "public/index.html")
+def react_frontend(request):
+    return render(request, "public/index.html")
 
 
 urlpatterns = [
@@ -23,5 +23,5 @@ urlpatterns = [
     path('api-docs/', schema_view),
     path('', include('profiles.urls')),
     path('', include('users.urls')),
-    # path('', react_frontend),
+    path('dashboard', react_frontend),
 ]
