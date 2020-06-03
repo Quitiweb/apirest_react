@@ -28,7 +28,8 @@ import "assets/css/material-dashboard-react.css?v=1.8.0";
 
 const hist = createBrowserHistory();
 
-window.$BASE_URL = 'http://127.0.0.1:8000';
+// window.$BASE_URL = 'http://127.0.0.1:8000';
+window.$BASE_URL = 'http://api.quitiweb.com';
 
 ReactDOM.render(
   <Router history={hist}>
