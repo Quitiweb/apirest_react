@@ -31,7 +31,6 @@ class CustomUserAdmin(UserAdmin):
 
     def get_queryset(self, request):
         qs = super(UserAdmin, self).get_queryset(request)
-        print(qs)
         if not request.user.is_superuser:
             return qs.filter(is_superuser=False)
         return qs
@@ -45,10 +44,7 @@ class CustomTokenAdmin(TokenAdmin):
         return super(TokenAdmin, self).render_change_form(request, context, *args, **kwargs)
 
 
+admin.site.register([SubscriptionType, Logs, Device])
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(SubscriptionType)
-admin.site.register(Logs)
-admin.site.register(Device)
-
 admin.site.unregister(Token)
 admin.site.register(Token, CustomTokenAdmin)
