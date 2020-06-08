@@ -18,21 +18,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
+import { createMemoryHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
 import Admin from "layouts/Admin.js";
 import RTL from "layouts/RTL.js";
 
+
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 
-const hist = createBrowserHistory();
+const memoryHistory = createMemoryHistory();
+
+// const hist = createBrowserHistory();
 
 // window.$BASE_URL = 'http://127.0.0.1:8000';
 window.$BASE_URL = 'https://qw-django.club';
 
 ReactDOM.render(
-  <Router history={hist}>
+  <Router history={memoryHistory}>
     <Switch>
       <Route path="" component={Admin} />
     </Switch>
