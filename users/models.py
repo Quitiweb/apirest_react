@@ -47,7 +47,7 @@ class Device(models.Model):
     # configuration = models.ForeignKey('Configuration', on_delete=models.SET_NULL, null=True, blank=True)
     remoteLog = models.BooleanField(default=False)
     MACAddress = models.CharField(max_length=100, default='')
-    user = models.ManyToManyField('users.CustomUser', related_name='devices',
+    user = models.ManyToManyField('CustomUser', related_name='devices',
                                   limit_choices_to={'is_superuser': False})
 
     objects = models.Model
