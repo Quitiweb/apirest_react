@@ -41,10 +41,10 @@ export default function TablaLogs() {
       axios.get(url + '/user/device/', { headers: { "Authorization": token} }) // "user": token
       .then(function (response) {                                             // en user se puede introducir un token
           console.log(response.data)                                          // de la BBDD para acceder a la info de otro user.
-        for(var i in response.data) {
+        for(var i in response.data.results) {
             arrayDevices.push(
-              [response.data[i]['id'], 
-              response.data[i]['name'],
+              [response.data.results[i]['id'], 
+              response.data.results[i]['name'],
             ]);
         }
         setDevices(arrayDevices);
@@ -57,14 +57,14 @@ export default function TablaLogs() {
       axios.get(url + '/user/log/', { headers: { "Authorization": token } })
         .then(function (response) {
   
-          for(var i in response.data) {
-              let datos = response.data[i]['data'].split(",");
+          for(var i in response.data.results) {
+              let datos = response.data.results[i]['data'].split(",");
               let arrayDatos = []
               for(var j in datos) {
                   arrayDatos.push(datos[j])
               }
               console.log(arrayDatos)
-              array.push([response.data[i]['timestamp'], response.data[i]['device'], datos[1], datos[2], datos[3], datos[4],datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]]);
+              array.push([response.data.results[i]['timestamp'], response.data.results[i]['device'], datos[1], datos[2], datos[3], datos[4],datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]]);
           }
           setLogs(array);
         })
@@ -78,14 +78,14 @@ export default function TablaLogs() {
     axios.get( url + '/user/log/', { headers: { "Authorization": token, 'device': event.target.value } })
     .then(function (response) {
 
-      for(var i in response.data) {
-          let datos = response.data[i]['data'].split(",");
+      for(var i in response.data.results) {
+          let datos = response.data.results[i]['data'].split(",");
           let arrayDatos = []
           for(var j in datos) {
               arrayDatos.push(datos[j])
           }
 
-          array.push([response.data[i]['timestamp'], response.data[i]['device'], datos[1], datos[2], datos[3], datos[4],datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]]);
+          array.push([response.data.results[i]['timestamp'], response.data.results[i]['device'], datos[1], datos[2], datos[3], datos[4],datos[5], datos[6], datos[7], datos[8], datos[9], datos[10], datos[11]]);
       }
       setLogs(array);    
     })
