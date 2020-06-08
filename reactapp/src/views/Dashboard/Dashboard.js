@@ -66,26 +66,27 @@ export default function Dashboard() {
   
   useEffect(() => {
     axios.get( url + '/user/device/', { headers: { "Authorization": token} }) // "user": token
-      .then(function (response) {                                             // en user se puede introducir un token
-          console.log(response.data)                                          // de la BBDD para acceder a la info de otro user.
-        for(var i in response.data) {
+      .then(function (response) {                                               // de la BBDD para acceder a la info de otro user.
+        for(var i in response.data.results) {
             array.push(
-              [response.data[i]['id'], 
-              response.data[i]['name'],
-              response.data[i]['configuration'] ? response.data[i]['configuration'] : '---',
-              response.data[i]['remoteLog'] ? 'true' : 'false',
-              response.data[i]['MACAddress']
+              [response.data.results[i]['id'], 
+              response.data.results[i]['name'],
+              response.data.results[i]['configuration'] ? response.data[i]['configuration'] : '---',
+              response.data.results[i]['remoteLog'] ? 'true' : 'false',
+              response.data.results[i]['MACAddress']
             ]);
         }
         setDevices(array);
       })
       .catch(function (error) {
+        console.log('error por aqui')
         console.log(error)
       });
 
       axios.get( url + '/user/log/' + filterValue + '/', { headers: { "Authorization": token, 'device': filterValue } })
           .then(function (response) {
-    
+            console.log('hey')                                          
+            console.log(response.data)  
             for(var i in response.data) {
                 let datos = response.data['data'].split(",");
                 let arrayDatos = []
