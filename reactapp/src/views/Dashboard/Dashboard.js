@@ -83,23 +83,18 @@ export default function Dashboard() {
         console.log(error)
       });
 
-      axios.get( url + '/user/log/' + filterValue + '/', { headers: { "Authorization": token, 'device': filterValue } })
+      axios.get( url + '/user/log/', { headers: { "Authorization": token, 'device': filterValue } })
           .then(function (response) {
-            console.log('hey')                                          
-            console.log(response.data)  
-            for(var i in response.data) {
-                let datos = response.data['data'].split(",");
-                let arrayDatos = []
-                for(var j in datos) {
-                    arrayDatos.push(datos[j])
-                }
-                setTempMax(datos[1]);
-                setTempMin(datos[2]);
-                setTempAmb(datos[3]);
-                setTempOil(datos[4]);
-                
+            // Cogemos el ultimo valor de la tabla de logs porque es lo que nos interesa mostrar
+            let datos = response.data.results[response.data.results.length-1].data.split(",");
+            let arrayDatos = []
+            for(var j in datos) {
+                arrayDatos.push(datos[j])
             }
-            
+            setTempMax(datos[1]);
+            setTempMin(datos[2]);
+            setTempAmb(datos[3]);
+            setTempOil(datos[4]);
           })
           .catch(function (error) {
             console.log(error)
@@ -110,22 +105,18 @@ export default function Dashboard() {
     var valor = event.target.value
     setFilterValue(event.target.value);
 
-    axios.get( url + '/user/log/' + valor + '/', { headers: { "Authorization": token, 'device': event.target.value } })
+    axios.get( url + '/user/log/', { headers: { "Authorization": token, 'device': event.target.value } })
     .then(function (response) {
-      console.log(response.data)
-
-      for(var i in response.data) {
-          let datos = response.data['data'].split(",");
-          let arrayDatos = []
-          for(var j in datos) {
-              arrayDatos.push(datos[j])
-          }
-          setTempMax(datos[1]);
-          setTempMin(datos[2]);
-          setTempAmb(datos[3]);
-          setTempOil(datos[4]);
-          
-      }
+            // Cogemos el ultimo valor de la tabla de logs porque es lo que nos interesa mostrar
+            let datos = response.data.results[response.data.results.length-1].data.split(",");
+            let arrayDatos = []
+            for(var j in datos) {
+                arrayDatos.push(datos[j])
+            }
+            setTempMax(datos[1]);
+            setTempMin(datos[2]);
+            setTempAmb(datos[3]);
+            setTempOil(datos[4]);
       
     })
     .catch(function (error) {
