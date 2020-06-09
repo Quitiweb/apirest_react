@@ -81,7 +81,7 @@ MIDDLEWARE_CLASSES = (
 CORS_ORIGIN_WHITELIST = (
     'https://localhost:3000',
     'https://qa.quitiweb.com',
-    'http://api.quitiweb.com',
+    'https://api.quitiweb.com',
     # 'https://jlram.github.io'
 )
 
