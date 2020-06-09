@@ -33,7 +33,7 @@ const memoryHistory = createMemoryHistory();
 // const hist = createBrowserHistory();
 
 // window.$BASE_URL = 'http://127.0.0.1:8000';
-window.$BASE_URL = 'http://api.quitiweb.com';
+window.$BASE_URL = 'https://api.quitiweb.com';
 
 ReactDOM.render(
   <Router history={memoryHistory}>
